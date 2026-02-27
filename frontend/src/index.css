@@ -1,0 +1,67 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #070c14;
+  --bg-card:   rgba(255,255,255,0.03);
+  --bg-card2:  rgba(255,255,255,0.055);
+  --border:    rgba(255,255,255,0.07);
+  --border-hi: rgba(56,189,248,0.25);
+  --ice:       #38bdf8;
+  --ice-dim:   rgba(56,189,248,0.6);
+  --gold:      #fbbf24;
+  --green:     #4ade80;
+  --red:       #f87171;
+  --purple:    #a78bfa;
+  --text:      #e2e8f0;
+  --text-dim:  rgba(226,232,240,0.5);
+  --text-muted:rgba(226,232,240,0.3);
+  --font-ui:   'Barlow', system-ui, sans-serif;
+  --font-disp: 'Barlow Condensed', 'Barlow', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #0a1120; }
+::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 3px; }
+
+button, input, select { font-family: inherit; outline: none; }
+
+/* Animations */
+@keyframes fadeUp   { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:none } }
+@keyframes fadeIn   { from { opacity:0 } to { opacity:1 } }
+@keyframes shimmer  { from { background-position: -200% 0 } to { background-position: 200% 0 } }
+@keyframes rinkPulse{ 0%,100% { opacity:.025 } 50% { opacity:.055 } }
+@keyframes scorePop { 0% { transform:scale(.8); opacity:0 } 60% { transform:scale(1.05) } 100% { transform:scale(1); opacity:1 } }
+@keyframes spin     { to { transform: rotate(360deg) } }
+@keyframes slideIn  { from { transform: translateX(-10px); opacity:0 } to { transform:none; opacity:1 } }
+
+.fade-up   { animation: fadeUp   .45s cubic-bezier(.4,0,.2,1) both; }
+.fade-in   { animation: fadeIn   .35s ease both; }
+.score-pop { animation: scorePop .5s  cubic-bezier(.4,0,.2,1) both; }
+.slide-in  { animation: slideIn  .35s cubic-bezier(.4,0,.2,1) both; }
+
+/* Stagger helpers */
+.delay-1 { animation-delay: .07s }
+.delay-2 { animation-delay: .14s }
+.delay-3 { animation-delay: .21s }
+.delay-4 { animation-delay: .28s }
+.delay-5 { animation-delay: .35s }
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+  border-radius: 6px;
+}
