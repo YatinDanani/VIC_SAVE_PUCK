@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIC SAVE PUCK — Real-Time F&B Dashboard</title>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- HEADER -->
+    <header id="header">
+        <div class="header-left">
+            <h1>VIC SAVE PUCK</h1>
+            <span class="subtitle">Real-Time Adaptive F&B Prep Optimization</span>
+        </div>
+        <div class="header-center">
+            <span id="scenario-badge" class="badge hidden"></span>
+            <span id="game-info-badge" class="badge badge-dim hidden"></span>
+        </div>
+        <div class="header-right">
+            <span id="game-clock" class="game-clock">--</span>
+            <span id="connection-status" class="status-dot disconnected" title="Disconnected"></span>
+        </div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <div id="main" class="main-grid">
+        <!-- LEFT COLUMN (charts + traffic lights) -->
+        <div class="left-col">
+            <!-- Forecast vs Actual Bar Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Forecast vs Actual</h2>
+                    <span id="overall-drift" class="drift-badge"></span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="forecast-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Cumulative Drift Line Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Cumulative Drift</h2>
+                    <span id="cumulative-drift" class="drift-badge"></span>
+                </div>
+                <div class="chart-container chart-container-sm">
+                    <canvas id="drift-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Traffic Light Grid -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Stand Status</h2>
+                </div>
+                <div id="traffic-grid" class="traffic-grid">
+                    <div class="traffic-placeholder">Start a simulation to see stand status</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN (controls + alerts) -->
+        <div class="right-col">
+            <!-- Controls -->
+            <div class="card">
+                <div class="card-header"><h2>Controls</h2></div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="scenario-select">Scenario</label>
+                        <select id="scenario-select">
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="speed-slider">Speed: <span id="speed-value">60</span>x</label>
+                        <input type="range" id="speed-slider" min="1" max="200" value="60" step="1">
+                    </div>
+                    <div class="control-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="skip-ai-toggle">
+                            Skip AI (faster, no API calls)
+                        </label>
+                    </div>
+                    <div class="control-buttons">
+                        <button id="btn-start" class="btn btn-start">Start</button>
+                        <button id="btn-stop" class="btn btn-stop" disabled>Stop</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inject Overrides -->
+            <div class="card">
+                <div class="card-header"><h2>Live Overrides</h2></div>
+                <div class="controls">
+                    <div class="inject-section">
+                        <button class="btn btn-inject" id="btn-inject-outage" disabled>Stand Outage</button>
+                        <div id="outage-form" class="inject-form hidden">
+                            <select id="outage-stand">
+                                <option value="SOFMC Island Canteen">Island Canteen</option>
+                                <option value="SOFMC ReMax Fan Deck">ReMax Fan Deck</option>
+                                <option value="SOFMC TacoTacoTaco">TacoTacoTaco</option>
+                                <option value="SOFMC Portable Stations">Portable Stations</option>
+                                <option value="SOFMC Island Slice">Island Slice</option>
+                            </select>
+                            <div class="form-row">
+                                <input type="number" id="outage-duration" placeholder="Duration (min)" value="20" min="5" max="60">
+                            </div>
+                            <button class="btn btn-sm btn-confirm" id="btn-confirm-outage">Apply</button>
+                        </div>
+                    </div>
+
+                    <div class="inject-section">
+                        <button class="btn btn-inject" id="btn-inject-spike" disabled>Demand Spike</button>
+                        <div id="spike-form" class="inject-form hidden">
+                            <select id="spike-stand">
+                                <option value="SOFMC Island Canteen">Island Canteen</option>
+                                <option value="SOFMC ReMax Fan Deck">ReMax Fan Deck</option>
+                                <option value="SOFMC TacoTacoTaco">TacoTacoTaco</option>
+                                <option value="SOFMC Portable Stations">Portable Stations</option>
+                                <option value="SOFMC Island Slice">Island Slice</option>
+                            </select>
+                            <div class="form-row">
+                                <label>Factor: <span id="spike-factor-value">2.0</span>x</label>
+                                <input type="range" id="spike-factor" min="1.2" max="3.0" value="2.0" step="0.1">
+                            </div>
+                            <button class="btn btn-sm btn-confirm" id="btn-confirm-spike">Apply</button>
+                        </div>
+                    </div>
+
+                    <div class="inject-section">
+                        <div class="form-row">
+                            <label>Global Volume: <span id="volume-factor-value">1.0</span>x</label>
+                            <input type="range" id="volume-factor" min="0.5" max="2.0" value="1.0" step="0.1" disabled>
+                        </div>
+                        <button class="btn btn-sm btn-confirm" id="btn-confirm-volume" disabled>Apply Volume</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Alert Feed -->
+            <div class="card card-alerts">
+                <div class="card-header">
+                    <h2>AI Alerts</h2>
+                    <span id="alert-count" class="badge badge-dim">0</span>
+                </div>
+                <div id="alert-feed" class="alert-feed">
+                    <div class="alert-placeholder">AI alerts will appear here when drift is detected</div>
+                </div>
+            </div>
+
+            <!-- Post-Game Summary -->
+            <div id="post-game-card" class="card hidden">
+                <div class="card-header"><h2>Post-Game Analysis</h2></div>
+                <div id="post-game-content" class="post-game-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/traffic.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/alerts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/controls.js') }}"></script>
+</body>
+</html>
