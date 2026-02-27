@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { api } from './api'
 
-const STATUS_COLORS = { green: '#4ade80', yellow: '#fbbf24', red: '#f87171' }
+const STATUS_COLORS = { green: '#4ade80', yellow: '#fbbf24', red: '#ef4444' }
 const STATUS_EMOJI = { green: '🟢', yellow: '🟡', red: '🔴' }
 
 function TrafficLightGrid({ stands }) {
@@ -163,7 +163,7 @@ export default function SimulationView() {
             }}
           >
             {scenarios.map(s => (
-              <option key={s.key} value={s.key} style={{ background: '#0d1e2c' }}>{s.name}</option>
+              <option key={s.key} value={s.key} style={{ background: '#0d1525' }}>{s.name}</option>
             ))}
           </select>
           {selectedMeta && (
@@ -191,7 +191,7 @@ export default function SimulationView() {
         <div>
           {!running ? (
             <button onClick={handleStart} style={{
-              background: 'linear-gradient(135deg,#0369a1,#0ea5e9)',
+              background: 'linear-gradient(135deg,#013974,#1a6bc4)',
               border: 'none', borderRadius: 10, color: 'white',
               fontFamily: 'var(--font-disp)', fontSize: 15, fontWeight: 800,
               letterSpacing: '1px', textTransform: 'uppercase', padding: '12px 28px',
@@ -201,9 +201,9 @@ export default function SimulationView() {
             </button>
           ) : (
             <button onClick={handleStop} style={{
-              background: 'rgba(248,113,113,0.2)',
-              border: '1px solid rgba(248,113,113,0.4)',
-              borderRadius: 10, color: '#f87171',
+              background: 'rgba(210,4,14,0.2)',
+              border: '1px solid rgba(210,4,14,0.4)',
+              borderRadius: 10, color: '#ef4444',
               fontFamily: 'var(--font-disp)', fontSize: 15, fontWeight: 800,
               letterSpacing: '1px', textTransform: 'uppercase', padding: '12px 28px',
               cursor: 'pointer',
@@ -217,8 +217,8 @@ export default function SimulationView() {
       {/* Game info */}
       {gameInfo && (
         <div style={{
-          background: 'linear-gradient(135deg,#0a1829,#0d2040)',
-          border: '1px solid rgba(56,189,248,0.12)', borderRadius: 14,
+          background: 'linear-gradient(135deg,#0a1422,#0c1830)',
+          border: '1px solid rgba(26,107,196,0.12)', borderRadius: 14,
           padding: '16px 20px', marginBottom: 20,
           display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center',
         }}>
@@ -246,7 +246,7 @@ export default function SimulationView() {
           {complete && (
             <div style={{
               padding: '6px 14px', borderRadius: 20, fontSize: 11, fontWeight: 600,
-              background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.3)',
+              background: 'rgba(26,107,196,0.1)', border: '1px solid rgba(26,107,196,0.3)',
               color: 'var(--ice)',
             }}>
               COMPLETE
@@ -263,7 +263,7 @@ export default function SimulationView() {
             <div style={{
               fontFamily: 'var(--font-disp)', fontSize: 11, fontWeight: 700,
               letterSpacing: '2.5px', textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.35)', marginBottom: 14,
+              color: 'rgba(255,255,255,0.55)', marginBottom: 14,
             }}>
               Stand Status
             </div>
@@ -275,21 +275,21 @@ export default function SimulationView() {
             <div style={{
               fontFamily: 'var(--font-disp)', fontSize: 11, fontWeight: 700,
               letterSpacing: '2.5px', textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.35)', marginBottom: 14,
+              color: 'rgba(255,255,255,0.55)', marginBottom: 14,
             }}>
               Cumulative Drift
             </div>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={driftHistory}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="window" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} />
-                <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} unit="%" />
+                <XAxis dataKey="window" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 10 }} axisLine={false} />
+                <YAxis tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 10 }} axisLine={false} unit="%" />
                 <Tooltip
-                  contentStyle={{ background: '#0d1e33', border: '1px solid rgba(56,189,248,0.2)', borderRadius: 8, fontSize: 12 }}
+                  contentStyle={{ background: '#0d1525', border: '1px solid rgba(26,107,196,0.2)', borderRadius: 8, fontSize: 12 }}
                   labelFormatter={v => `T+${v}min`}
                   formatter={v => [`${v}%`, 'Drift']}
                 />
-                <Line type="monotone" dataKey="drift" stroke="#38bdf8" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="drift" stroke="#1a6bc4" strokeWidth={2} dot={false} />
                 {/* Reference lines at ±15% */}
                 <Line type="monotone" dataKey={() => 15} stroke="rgba(74,222,128,0.3)" strokeDasharray="5 5" dot={false} />
                 <Line type="monotone" dataKey={() => -15} stroke="rgba(74,222,128,0.3)" strokeDasharray="5 5" dot={false} />
@@ -305,7 +305,7 @@ export default function SimulationView() {
           <div style={{
             fontFamily: 'var(--font-disp)', fontSize: 11, fontWeight: 700,
             letterSpacing: '2.5px', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)', marginBottom: 14,
+            color: 'rgba(255,255,255,0.55)', marginBottom: 14,
           }}>
             AI Alerts
           </div>
@@ -319,7 +319,7 @@ export default function SimulationView() {
           <div style={{
             fontFamily: 'var(--font-disp)', fontSize: 11, fontWeight: 700,
             letterSpacing: '2.5px', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)', marginBottom: 14,
+            color: 'rgba(255,255,255,0.55)', marginBottom: 14,
           }}>
             Post-Game Report
           </div>

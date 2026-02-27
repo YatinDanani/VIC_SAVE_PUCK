@@ -9,7 +9,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.error) {
       return (
-        <div style={{ padding: 40, color: '#f87171', fontFamily: 'monospace', background: '#0a0a0a', minHeight: '100vh' }}>
+        <div style={{ padding: 40, color: '#ef4444', fontFamily: 'monospace', background: '#0a0a0a', minHeight: '100vh' }}>
           <h1 style={{ color: '#fff' }}>Runtime Error</h1>
           <pre style={{ whiteSpace: 'pre-wrap', marginTop: 16 }}>{this.state.error.message}</pre>
           <pre style={{ whiteSpace: 'pre-wrap', marginTop: 8, fontSize: 12, opacity: 0.6 }}>{this.state.error.stack}</pre>

@@ -4,8 +4,8 @@ import { api } from './api'
 const TYPE_COLORS = {
   promo: '#fbbf24',
   early_bird: '#4ade80',
-  scheduling: '#38bdf8',
-  event: '#a78bfa',
+  scheduling: '#1a6bc4',
+  event: '#A4ADB4',
 }
 const TYPE_ICONS = {
   promo: '🎫',
@@ -29,8 +29,8 @@ export default function EventView() {
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: 40 }}>
       <div style={{
-        width: 18, height: 18, border: '2px solid rgba(56,189,248,0.2)',
-        borderTop: '2px solid #38bdf8', borderRadius: '50%',
+        width: 18, height: 18, border: '2px solid rgba(26,107,196,0.2)',
+        borderTop: '2px solid #1a6bc4', borderRadius: '50%',
         animation: 'spin 0.7s linear infinite',
       }}/>
       <span style={{ color: 'var(--ice-dim)', fontSize: 13 }}>Loading recommendations...</span>
@@ -38,7 +38,7 @@ export default function EventView() {
   )
 
   if (error) return (
-    <div style={{ color: '#f87171', padding: 20 }}>Error: {error}</div>
+    <div style={{ color: '#ef4444', padding: 20 }}>Error: {error}</div>
   )
 
   const recommendations = data?.recommendations || []
@@ -72,7 +72,7 @@ export default function EventView() {
       {/* Recommendation cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: 14, marginBottom: 24 }}>
         {recommendations.map((r, i) => {
-          const color = TYPE_COLORS[r.type] || '#38bdf8'
+          const color = TYPE_COLORS[r.type] || '#1a6bc4'
           const icon = TYPE_ICONS[r.type] || '📋'
           return (
             <div key={i} style={{
@@ -124,7 +124,7 @@ export default function EventView() {
       {/* AI strategy panel */}
       {aiStrategy && (
         <div style={{
-          background: 'var(--bg-card)', border: '1px solid rgba(56,189,248,0.15)',
+          background: 'var(--bg-card)', border: '1px solid rgba(26,107,196,0.15)',
           borderRadius: 14, padding: 20,
         }}>
           <div style={{

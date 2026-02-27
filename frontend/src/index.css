@@ -1,20 +1,20 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #070c14;
-  --bg-card:   rgba(255,255,255,0.03);
-  --bg-card2:  rgba(255,255,255,0.055);
-  --border:    rgba(255,255,255,0.07);
-  --border-hi: rgba(56,189,248,0.25);
-  --ice:       #38bdf8;
-  --ice-dim:   rgba(56,189,248,0.6);
+  --bg:        #060a12;
+  --bg-card:   rgba(255,255,255,0.035);
+  --bg-card2:  rgba(255,255,255,0.06);
+  --border:    rgba(255,255,255,0.08);
+  --border-hi: rgba(26,107,196,0.3);
+  --ice:       #1a6bc4;
+  --ice-dim:   rgba(26,107,196,0.7);
   --gold:      #fbbf24;
   --green:     #4ade80;
-  --red:       #f87171;
-  --purple:    #a78bfa;
-  --text:      #e2e8f0;
-  --text-dim:  rgba(226,232,240,0.5);
-  --text-muted:rgba(226,232,240,0.3);
+  --red:       #ef4444;
+  --purple:    #A4ADB4;
+  --text:      #f1f5f9;
+  --text-dim:  rgba(241,245,249,0.7);
+  --text-muted:rgba(241,245,249,0.5);
   --font-ui:   'Barlow', system-ui, sans-serif;
   --font-disp: 'Barlow Condensed', 'Barlow', sans-serif;
 }
@@ -32,8 +32,8 @@ body {
 }
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #0a1120; }
-::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #080e1a; }
+::-webkit-scrollbar-thumb { background: #1a3157; border-radius: 3px; }
 
 button, input, select { font-family: inherit; outline: none; }
 

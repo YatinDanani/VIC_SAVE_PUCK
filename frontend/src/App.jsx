@@ -12,18 +12,18 @@ import EventView from './EventView'
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const OUTCOME_META = {
   win:     { label: '🏆 Royals Win',     color: '#4ade80', effect: '+15–18% alcohol, +6–8% food' },
-  loss:    { label: '😤 Royals Loss',    color: '#f87171', effect: '−10–12% alcohol, −3–5% food' },
+  loss:    { label: '😤 Royals Loss',    color: '#ef4444', effect: '−10–12% alcohol, −3–5% food' },
   close:   { label: '⚔️  Close Game',    color: '#fbbf24', effect: '+3–6% across all categories' },
   unknown: { label: '❓ Unknown',         color: '#94a3b8', effect: 'No outcome adjustment applied' },
 }
 const CAT_COLOR = {
-  Beer: '#38bdf8', Alcohol: '#818cf8', Food: '#fb923c',
-  Snack: '#a3e635', NA_Bev: '#22d3ee', Sweets: '#f472b6',
+  Beer: '#1a6bc4', Alcohol: '#6d7ce6', Food: '#D2040E',
+  Snack: '#fbbf24', NA_Bev: '#2eaed1', Sweets: '#f472b6',
 }
-const STAND_ACCENT = ['#fbbf24','#94a3b8','#cd7f32','#38bdf8','#a78bfa','#4ade80']
+const STAND_ACCENT = ['#1a6bc4','#D2040E','#A4ADB4','#fbbf24','#4ade80','#cd7f32']
 const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
-const ARCH_COLORS = { beer_crowd: '#fbbf24', family: '#a78bfa', mixed: '#38bdf8' }
-const PERISH_COLORS = { shelf_stable: '#4ade80', medium_hold: '#fbbf24', short_life: '#f87171' }
+const ARCH_COLORS = { beer_crowd: '#fbbf24', family: '#A4ADB4', mixed: '#1a6bc4' }
+const PERISH_COLORS = { shelf_stable: '#4ade80', medium_hold: '#fbbf24', short_life: '#ef4444' }
 
 // ─── SMALL COMPONENTS ─────────────────────────────────────────────────────────
 
@@ -31,8 +31,8 @@ function Spinner() {
   return (
     <div style={{ display:'flex', alignItems:'center', gap:10 }}>
       <div style={{
-        width:18, height:18, border:'2px solid rgba(56,189,248,0.2)',
-        borderTop:'2px solid #38bdf8', borderRadius:'50%',
+        width:18, height:18, border:'2px solid rgba(26,107,196,0.2)',
+        borderTop:'2px solid #1a6bc4', borderRadius:'50%',
         animation:'spin 0.7s linear infinite',
       }}/>
       <span style={{ color:'var(--ice-dim)', fontSize:13 }}>Computing forecast…</span>
@@ -44,7 +44,7 @@ function ConfBadge({ level }) {
   const cfg = {
     high:   { bg:'rgba(74,222,128,0.1)',  border:'rgba(74,222,128,0.25)',  color:'#4ade80' },
     medium: { bg:'rgba(251,191,36,0.1)',  border:'rgba(251,191,36,0.25)',  color:'#fbbf24' },
-    low:    { bg:'rgba(248,113,113,0.1)', border:'rgba(248,113,113,0.25)', color:'#f87171' },
+    low:    { bg:'rgba(210,4,14,0.1)', border:'rgba(210,4,14,0.25)', color:'#ef4444' },
   }[level] || {}
   return (
     <span style={{
@@ -98,7 +98,7 @@ function StatCard({ icon, label, value, sub, color = 'var(--ice)', delay = 0 }) 
       <div style={{ fontSize:20, marginBottom:6 }}>{icon}</div>
       <div style={{ fontFamily:'var(--font-disp)', fontSize:28, fontWeight:700, color, lineHeight:1 }}>{value}</div>
       <div style={{ fontSize:11, color:'var(--text-muted)', marginTop:4, letterSpacing:'0.3px' }}>{label}</div>
-      {sub && <div style={{ fontSize:10, color:'rgba(255,255,255,0.22)', marginTop:3 }}>{sub}</div>}
+      {sub && <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)', marginTop:3 }}>{sub}</div>}
     </div>
   )
 }
@@ -108,7 +108,7 @@ function SectionHeader({ children }) {
     <div style={{
       fontFamily:'var(--font-disp)', fontSize:11, fontWeight:700,
       letterSpacing:'2.5px', textTransform:'uppercase',
-      color:'rgba(255,255,255,0.35)', marginBottom:16,
+      color:'rgba(255,255,255,0.55)', marginBottom:16,
     }}>{children}</div>
   )
 }
@@ -207,7 +207,7 @@ function Timeline({ timeline }) {
             )}
           </div>
           <div style={{ flex:1 }}>
-            <IceBar value={slot.items} max={maxItems} color={slot.is_rush ? '#fbbf24' : '#38bdf8'} height={7} />
+            <IceBar value={slot.items} max={maxItems} color={slot.is_rush ? '#fbbf24' : '#1a6bc4'} height={7} />
           </div>
           <div style={{ minWidth:80, textAlign:'right' }}>
             <div style={{ fontFamily:'var(--font-disp)', fontSize:20, fontWeight:700, color:'var(--text)' }}>
@@ -227,7 +227,7 @@ function ChartTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background:'#0d1e33', border:'1px solid rgba(56,189,248,0.2)',
+      background:'#0d1525', border:'1px solid rgba(26,107,196,0.2)',
       borderRadius:8, padding:'10px 14px', fontSize:12, color:'var(--text)',
     }}>
       <div style={{ fontFamily:'var(--font-disp)', fontWeight:700, marginBottom:4 }}>{label}</div>
@@ -285,7 +285,7 @@ function GameForm({ teams, onSubmit, loading }) {
 
   const handleSubmit = (e) => { e.preventDefault(); onSubmit(form) }
 
-  const focusStyle = { borderColor:'rgba(56,189,248,0.55)', background:'rgba(56,189,248,0.05)' }
+  const focusStyle = { borderColor:'rgba(26,107,196,0.55)', background:'rgba(26,107,196,0.05)' }
   const addFocus = e => Object.assign(e.target.style, focusStyle)
   const remFocus = e => Object.assign(e.target.style, { borderColor:'rgba(255,255,255,0.1)', background:'rgba(255,255,255,0.045)' })
 
@@ -296,7 +296,7 @@ function GameForm({ teams, onSubmit, loading }) {
           <InputLabel>Opponent</InputLabel>
           <select style={inputStyle} value={form.opponent} onChange={e => set('opponent', e.target.value)}
             onFocus={addFocus} onBlur={remFocus}>
-            {(teams.length ? teams : ['Kamloops Blazers']).map(t => <option key={t} style={{background:'#0d1e2c'}}>{t}</option>)}
+            {(teams.length ? teams : ['Kamloops Blazers']).map(t => <option key={t} style={{background:'#0d1525'}}>{t}</option>)}
           </select>
         </div>
         <div>
@@ -308,7 +308,7 @@ function GameForm({ teams, onSubmit, loading }) {
           <InputLabel>Day of Week</InputLabel>
           <select style={inputStyle} value={form.day_of_week} onChange={e => set('day_of_week', e.target.value)}
             onFocus={addFocus} onBlur={remFocus}>
-            {DAYS.map(d => <option key={d} style={{background:'#0d1e2c'}}>{d}</option>)}
+            {DAYS.map(d => <option key={d} style={{background:'#0d1525'}}>{d}</option>)}
           </select>
         </div>
         <div>
@@ -327,7 +327,7 @@ function GameForm({ teams, onSubmit, loading }) {
           <select style={inputStyle} value={form.predicted_outcome}
             onChange={e => set('predicted_outcome', e.target.value)} onFocus={addFocus} onBlur={remFocus}>
             {Object.entries(OUTCOME_META).map(([v, m]) => (
-              <option key={v} value={v} style={{background:'#0d1e2c'}}>{m.label}</option>
+              <option key={v} value={v} style={{background:'#0d1525'}}>{m.label}</option>
             ))}
           </select>
         </div>
@@ -338,7 +338,7 @@ function GameForm({ teams, onSubmit, loading }) {
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:8 }}>
           <InputLabel>Home Fan Support</InputLabel>
           <div style={{ display:'flex', gap:16 }}>
-            <span style={{ fontSize:11, color:'#f87171' }}>
+            <span style={{ fontSize:11, color:'#ef4444' }}>
               {form.opponent.split(' ').pop()}: {100 - form.home_support_pct}%
             </span>
             <span style={{ fontSize:11, color:'var(--ice)' }}>
@@ -348,8 +348,8 @@ function GameForm({ teams, onSubmit, loading }) {
         </div>
         <div style={{ position:'relative', padding:'4px 0' }}>
           <div style={{ display:'flex', height:6, borderRadius:3, overflow:'hidden', marginBottom:8 }}>
-            <div style={{ width:`${100-form.home_support_pct}%`, background:'rgba(248,113,113,0.4)', transition:'width 0.2s' }}/>
-            <div style={{ width:`${form.home_support_pct}%`, background:'rgba(56,189,248,0.4)', transition:'width 0.2s' }}/>
+            <div style={{ width:`${100-form.home_support_pct}%`, background:'rgba(210,4,14,0.4)', transition:'width 0.2s' }}/>
+            <div style={{ width:`${form.home_support_pct}%`, background:'rgba(26,107,196,0.4)', transition:'width 0.2s' }}/>
           </div>
           <input type="range" min={10} max={95} step={5} value={form.home_support_pct}
             onChange={e => set('home_support_pct', parseInt(e.target.value))}
@@ -375,14 +375,14 @@ function GameForm({ teams, onSubmit, loading }) {
 
       <div style={{ marginTop:24 }}>
         <button type="submit" disabled={loading} style={{
-          background: loading ? 'rgba(56,189,248,0.2)' : 'linear-gradient(135deg,#0369a1,#0ea5e9)',
+          background: loading ? 'rgba(26,107,196,0.2)' : 'linear-gradient(135deg,#013974,#1a6bc4)',
           border:'none', borderRadius:10, color:'white',
           fontFamily:'var(--font-disp)', fontSize:17, fontWeight:800,
           letterSpacing:'1px', textTransform:'uppercase', padding:'14px 36px',
           cursor: loading ? 'not-allowed' : 'pointer',
           transition:'all 0.2s', opacity: loading ? 0.7 : 1,
         }}
-        onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 8px 28px rgba(14,165,233,0.35)' }}}
+        onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 8px 28px rgba(26,107,196,0.35)' }}}
         onMouseLeave={e => { e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow='none' }}>
           {loading ? '⚙️  Computing…' : '🏒 Generate Game Brief'}
         </button>
@@ -406,13 +406,13 @@ function Results({ data }) {
   const topBarData = [...items].sort((a, b) => b.predicted - a.predicted).slice(0, 9).map(i => ({
     name: i.emoji + ' ' + i.item.replace(' & ',' &\n'),
     predicted: i.predicted, low: i.low, high: i.high,
-    fill: CAT_COLOR[i.category] || '#38bdf8',
+    fill: CAT_COLOR[i.category] || '#1a6bc4',
   }))
 
   const timelineChartData = timeline.map(t => ({
     name: t.label.replace('Intermission ', 'Int.'),
     items: t.items,
-    fill: t.is_rush ? '#fbbf24' : '#38bdf8',
+    fill: t.is_rush ? '#fbbf24' : '#1a6bc4',
   }))
 
   const outcomeColor = OUTCOME_META[meta.predicted_outcome]?.color || '#94a3b8'
@@ -421,8 +421,8 @@ function Results({ data }) {
     <div>
       {/* Scoreboard */}
       <div className="fade-up" style={{
-        background:'linear-gradient(135deg,#0a1829 0%,#0d2040 100%)',
-        border:'1px solid rgba(56,189,248,0.12)', borderRadius:16,
+        background:'linear-gradient(135deg,#0a1422 0%,#0c1830 100%)',
+        border:'1px solid rgba(26,107,196,0.12)', borderRadius:16,
         padding:'22px 26px', marginBottom:24,
       }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:16 }}>
@@ -435,9 +435,9 @@ function Results({ data }) {
                 <span style={{
                   fontSize:10, fontWeight:700, letterSpacing:'1px', textTransform:'uppercase',
                   padding:'2px 10px', borderRadius:20,
-                  background:`${ARCH_COLORS[archetype] || '#38bdf8'}20`,
-                  border:`1px solid ${ARCH_COLORS[archetype] || '#38bdf8'}40`,
-                  color: ARCH_COLORS[archetype] || '#38bdf8',
+                  background:`${ARCH_COLORS[archetype] || '#1a6bc4'}20`,
+                  border:`1px solid ${ARCH_COLORS[archetype] || '#1a6bc4'}40`,
+                  color: ARCH_COLORS[archetype] || '#1a6bc4',
                 }}>
                   {archetype.replace('_', ' ')}
                 </span>
@@ -477,13 +477,13 @@ function Results({ data }) {
       {/* Watchlist */}
       {watchlist.length > 0 && (
         <div className="fade-up delay-1" style={{
-          background:'rgba(248,113,113,0.06)', border:'1px solid rgba(248,113,113,0.2)',
+          background:'rgba(210,4,14,0.06)', border:'1px solid rgba(210,4,14,0.2)',
           borderRadius:12, padding:'14px 18px', marginBottom:20,
           display:'flex', gap:12, alignItems:'flex-start',
         }}>
           <div style={{ fontSize:18 }}>⚠️</div>
           <div>
-            <div style={{ fontSize:11, color:'#f87171', letterSpacing:'2px', textTransform:'uppercase', marginBottom:4, fontWeight:600 }}>
+            <div style={{ fontSize:11, color:'#ef4444', letterSpacing:'2px', textTransform:'uppercase', marginBottom:4, fontWeight:600 }}>
               Watchlist — Monitor Live
             </div>
             <div style={{ fontSize:13, color:'var(--text-dim)' }}>
@@ -504,12 +504,12 @@ function Results({ data }) {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={topBarData} layout="vertical" margin={{ left:8, right:24 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" horizontal={false}/>
-                <XAxis type="number" tick={{ fill:'rgba(255,255,255,0.3)', fontSize:10 }} axisLine={false} tickLine={false}/>
-                <YAxis type="category" dataKey="name" tick={{ fill:'rgba(255,255,255,0.55)', fontSize:10 }} axisLine={false} tickLine={false} width={100}/>
+                <XAxis type="number" tick={{ fill:'rgba(255,255,255,0.65)', fontSize:10 }} axisLine={false} tickLine={false}/>
+                <YAxis type="category" dataKey="name" tick={{ fill:'rgba(255,255,255,0.65)', fontSize:10 }} axisLine={false} tickLine={false} width={100}/>
                 <Tooltip content={<ChartTooltip/>}/>
-                <Bar dataKey="low"       fill="rgba(56,189,248,0.12)" radius={[0,3,3,0]} name="Low"/>
-                <Bar dataKey="predicted" fill="rgba(56,189,248,0.75)" radius={[0,3,3,0]} name="Forecast"/>
-                <Bar dataKey="high"      fill="rgba(56,189,248,0.18)" radius={[0,3,3,0]} name="High"/>
+                <Bar dataKey="low"       fill="rgba(26,107,196,0.12)" radius={[0,3,3,0]} name="Low"/>
+                <Bar dataKey="predicted" fill="rgba(26,107,196,0.75)" radius={[0,3,3,0]} name="Forecast"/>
+                <Bar dataKey="high"      fill="rgba(26,107,196,0.18)" radius={[0,3,3,0]} name="High"/>
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -520,8 +520,8 @@ function Results({ data }) {
               <ResponsiveContainer width="100%" height={200}>
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="rgba(255,255,255,0.07)"/>
-                  <PolarAngleAxis dataKey="subject" tick={{ fill:'rgba(255,255,255,0.45)', fontSize:10 }}/>
-                  <Radar name="Forecast" dataKey="value" stroke="#38bdf8" fill="#38bdf8" fillOpacity={0.12} strokeWidth={2}/>
+                  <PolarAngleAxis dataKey="subject" tick={{ fill:'rgba(255,255,255,0.65)', fontSize:10 }}/>
+                  <Radar name="Forecast" dataKey="value" stroke="#1a6bc4" fill="#1a6bc4" fillOpacity={0.12} strokeWidth={2}/>
                 </RadarChart>
               </ResponsiveContainer>
             </div>
@@ -549,7 +549,7 @@ function Results({ data }) {
       {tab === 'By Stand' && (
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:16 }}>
           {stands.map((stand, i) => (
-            <StandCard key={stand.name} stand={stand} accent={STAND_ACCENT[i] || '#38bdf8'} index={i}/>
+            <StandCard key={stand.name} stand={stand} accent={STAND_ACCENT[i] || '#1a6bc4'} index={i}/>
           ))}
         </div>
       )}
@@ -562,12 +562,12 @@ function Results({ data }) {
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={timelineChartData} margin={{ left:0, right:16 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false}/>
-                <XAxis dataKey="name" tick={{ fill:'rgba(255,255,255,0.45)', fontSize:11 }} axisLine={false} tickLine={false}/>
-                <YAxis tick={{ fill:'rgba(255,255,255,0.3)', fontSize:10 }} axisLine={false} tickLine={false}/>
+                <XAxis dataKey="name" tick={{ fill:'rgba(255,255,255,0.65)', fontSize:11 }} axisLine={false} tickLine={false}/>
+                <YAxis tick={{ fill:'rgba(255,255,255,0.65)', fontSize:10 }} axisLine={false} tickLine={false}/>
                 <Tooltip content={<ChartTooltip/>}/>
                 <Bar dataKey="items" radius={[5,5,0,0]} name="Items"
-                  fill="#38bdf8"
-                  label={{ position:'top', fill:'rgba(255,255,255,0.35)', fontSize:10 }}/>
+                  fill="#1a6bc4"
+                  label={{ position:'top', fill:'rgba(255,255,255,0.5)', fontSize:10 }}/>
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -593,11 +593,11 @@ function Results({ data }) {
                   background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.012)',
                   transition:'background 0.15s',
                 }}
-                onMouseEnter={e => e.currentTarget.style.background='rgba(56,189,248,0.05)'}
+                onMouseEnter={e => e.currentTarget.style.background='rgba(26,107,196,0.05)'}
                 onMouseLeave={e => e.currentTarget.style.background= i%2===0 ? 'transparent' : 'rgba(255,255,255,0.012)'}>
                   <td style={{ padding:'10px 16px', fontSize:13 }}>{item.emoji} {item.item}</td>
                   <td style={{ padding:'10px 16px' }}>
-                    <span style={{ fontSize:11, padding:'2px 8px', borderRadius:4, background:`${CAT_COLOR[item.category] || '#38bdf8'}18`, color:CAT_COLOR[item.category] || '#38bdf8' }}>
+                    <span style={{ fontSize:11, padding:'2px 8px', borderRadius:4, background:`${CAT_COLOR[item.category] || '#1a6bc4'}18`, color:CAT_COLOR[item.category] || '#1a6bc4' }}>
                       {item.category.replace('_',' ')}
                     </span>
                   </td>
@@ -657,18 +657,18 @@ function HistoryPanel({ data }) {
         <SectionHeader>Day-of-Week Multipliers</SectionHeader>
         <ResponsiveContainer width="100%" height={120}>
           <BarChart data={dowChartData} margin={{ left:0, right:0 }}>
-            <XAxis dataKey="name" tick={{ fill:'rgba(255,255,255,0.45)', fontSize:11 }} axisLine={false} tickLine={false}/>
+            <XAxis dataKey="name" tick={{ fill:'rgba(255,255,255,0.65)', fontSize:11 }} axisLine={false} tickLine={false}/>
             <YAxis hide domain={[70, 130]}/>
             <Tooltip content={<ChartTooltip/>} formatter={v => [`${v}%`,'Index']}/>
-            <Bar dataKey="mult" fill="#38bdf8" fillOpacity={0.7} radius={[4,4,0,0]} name="Index"
-              label={{ position:'top', fill:'rgba(255,255,255,0.35)', fontSize:9, formatter:v => v+'%' }}/>
+            <Bar dataKey="mult" fill="#1a6bc4" fillOpacity={0.7} radius={[4,4,0,0]} name="Index"
+              label={{ position:'top', fill:'rgba(255,255,255,0.5)', fontSize:9, formatter:v => v+'%' }}/>
           </BarChart>
         </ResponsiveContainer>
       </div>
 
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
         {[data.best_game, data.worst_game].map((g, i) => (
-          <div key={i} style={{ background:'var(--bg-card)', border:`1px solid ${i===0 ? 'rgba(74,222,128,0.15)' : 'rgba(248,113,113,0.15)'}`, borderRadius:10, padding:16 }}>
+          <div key={i} style={{ background:'var(--bg-card)', border:`1px solid ${i===0 ? 'rgba(74,222,128,0.15)' : 'rgba(210,4,14,0.15)'}`, borderRadius:10, padding:16 }}>
             <div style={{ fontSize:10, color: i===0 ? 'var(--green)' : 'var(--red)', letterSpacing:'1.5px', textTransform:'uppercase', marginBottom:6, fontWeight:600 }}>
               {i===0 ? '🔥 Biggest Game' : '📉 Quietest Game'}
             </div>
@@ -727,19 +727,19 @@ export default function App() {
       {/* Rink background */}
       <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, opacity:1, animation:'rinkPulse 7s ease-in-out infinite' }}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="50%" cy="50%" rx="46%" ry="42%" fill="none" stroke="rgba(56,189,248,0.55)" strokeWidth="1"/>
-          <line x1="50%" y1="5%" x2="50%" y2="95%" stroke="rgba(56,189,248,0.35)" strokeWidth="0.7"/>
-          <circle cx="50%" cy="50%" r="5.5%" fill="none" stroke="rgba(56,189,248,0.55)" strokeWidth="0.7"/>
-          <circle cx="50%" cy="50%" r="0.8%" fill="rgba(56,189,248,0.3)"/>
+          <ellipse cx="50%" cy="50%" rx="46%" ry="42%" fill="none" stroke="rgba(26,107,196,0.55)" strokeWidth="1"/>
+          <line x1="50%" y1="5%" x2="50%" y2="95%" stroke="rgba(26,107,196,0.35)" strokeWidth="0.7"/>
+          <circle cx="50%" cy="50%" r="5.5%" fill="none" stroke="rgba(26,107,196,0.55)" strokeWidth="0.7"/>
+          <circle cx="50%" cy="50%" r="0.8%" fill="rgba(26,107,196,0.3)"/>
           {[[26,34],[26,66],[74,34],[74,66]].map(([xn,yn],i) => (
             <g key={i}>
-              <circle cx={`${xn}%`} cy={`${yn}%`} r="2.2%" fill="none" stroke="rgba(248,113,113,0.5)" strokeWidth="0.7"/>
-              <line x1={`${xn-0.5}%`} x2={`${xn+0.5}%`} y1={`${yn}%`} y2={`${yn}%`} stroke="rgba(248,113,113,0.5)" strokeWidth="0.7"/>
-              <line x1={`${xn}%`} x2={`${xn}%`} y1={`${yn-0.5}%`} y2={`${yn+0.5}%`} stroke="rgba(248,113,113,0.5)" strokeWidth="0.7"/>
+              <circle cx={`${xn}%`} cy={`${yn}%`} r="2.2%" fill="none" stroke="rgba(210,4,14,0.5)" strokeWidth="0.7"/>
+              <line x1={`${xn-0.5}%`} x2={`${xn+0.5}%`} y1={`${yn}%`} y2={`${yn}%`} stroke="rgba(210,4,14,0.5)" strokeWidth="0.7"/>
+              <line x1={`${xn}%`} x2={`${xn}%`} y1={`${yn-0.5}%`} y2={`${yn+0.5}%`} stroke="rgba(210,4,14,0.5)" strokeWidth="0.7"/>
             </g>
           ))}
-          <line x1="20%" y1="5%" x2="20%" y2="95%" stroke="rgba(56,189,248,0.15)" strokeWidth="0.5"/>
-          <line x1="80%" y1="5%" x2="80%" y2="95%" stroke="rgba(56,189,248,0.15)" strokeWidth="0.5"/>
+          <line x1="20%" y1="5%" x2="20%" y2="95%" stroke="rgba(26,107,196,0.15)" strokeWidth="0.5"/>
+          <line x1="80%" y1="5%" x2="80%" y2="95%" stroke="rgba(26,107,196,0.15)" strokeWidth="0.5"/>
         </svg>
       </div>
 
@@ -751,15 +751,15 @@ export default function App() {
             <div style={{ display:'flex', alignItems:'center', gap:16 }}>
               <div style={{
                 width:52, height:52,
-                background:'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
+                background:'linear-gradient(135deg,#012d5a,#1a6bc4)',
                 borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center',
-                fontSize:26, boxShadow:'0 6px 24px rgba(14,165,233,0.28)',
+                fontSize:26, boxShadow:'0 6px 24px rgba(26,107,196,0.28)',
               }}>🏒</div>
               <div>
-                <div style={{ fontFamily:'var(--font-disp)', fontSize:34, fontWeight:900, letterSpacing:'2.5px', color:'#f0f9ff', textTransform:'uppercase', lineHeight:1 }}>
+                <div style={{ fontFamily:'var(--font-disp)', fontSize:34, fontWeight:900, letterSpacing:'2.5px', color:'#f1f5f9', textTransform:'uppercase', lineHeight:1 }}>
                   PUCK PREP
                 </div>
-                <div style={{ fontSize:10, color:'rgba(56,189,248,0.65)', letterSpacing:'3px', textTransform:'uppercase', marginTop:3 }}>
+                <div style={{ fontSize:10, color:'rgba(26,107,196,0.65)', letterSpacing:'3px', textTransform:'uppercase', marginTop:3 }}>
                   Save-on-Foods Memorial Centre · F&B Intelligence
                 </div>
               </div>
@@ -769,8 +769,8 @@ export default function App() {
             <nav style={{ display:'flex', gap:4, flexWrap:'wrap' }}>
               {NAV_ITEMS.map(([v, label]) => (
                 <button key={v} onClick={() => setView(v)} style={{
-                  background: view===v ? 'rgba(56,189,248,0.12)' : 'none',
-                  border:`1px solid ${view===v ? 'rgba(56,189,248,0.3)' : 'var(--border)'}`,
+                  background: view===v ? 'rgba(26,107,196,0.12)' : 'none',
+                  border:`1px solid ${view===v ? 'rgba(26,107,196,0.3)' : 'var(--border)'}`,
                   borderRadius:8, color: view===v ? 'var(--ice)' : 'var(--text-muted)',
                   fontFamily:'var(--font-disp)', fontSize:12, fontWeight:700,
                   letterSpacing:'0.5px', padding:'8px 14px', cursor:'pointer',
@@ -803,8 +803,8 @@ export default function App() {
 
             {error && (
               <div style={{
-                background:'rgba(248,113,113,0.07)', border:'1px solid rgba(248,113,113,0.25)',
-                borderRadius:12, padding:'16px 20px', color:'#f87171', fontSize:13,
+                background:'rgba(210,4,14,0.07)', border:'1px solid rgba(210,4,14,0.25)',
+                borderRadius:12, padding:'16px 20px', color:'#ef4444', fontSize:13,
                 display:'flex', alignItems:'center', gap:10, marginBottom:20,
               }}>
                 <span style={{ fontSize:20 }}>⚠️</span>

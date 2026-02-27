@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { api } from './api'
 
-const ARCH_COLORS = { beer_crowd: '#fbbf24', family: '#a78bfa', mixed: '#38bdf8' }
+const ARCH_COLORS = { beer_crowd: '#fbbf24', family: '#A4ADB4', mixed: '#1a6bc4' }
 
 export default function BacktestView() {
   const [data, setData] = useState(null)
@@ -19,8 +19,8 @@ export default function BacktestView() {
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: 40 }}>
       <div style={{
-        width: 18, height: 18, border: '2px solid rgba(56,189,248,0.2)',
-        borderTop: '2px solid #38bdf8', borderRadius: '50%',
+        width: 18, height: 18, border: '2px solid rgba(26,107,196,0.2)',
+        borderTop: '2px solid #1a6bc4', borderRadius: '50%',
         animation: 'spin 0.7s linear infinite',
       }}/>
       <span style={{ color: 'var(--ice-dim)', fontSize: 13 }}>Loading backtest results...</span>
@@ -28,7 +28,7 @@ export default function BacktestView() {
   )
 
   if (error) return (
-    <div style={{ color: '#f87171', padding: 20 }}>Error loading backtest: {error}</div>
+    <div style={{ color: '#ef4444', padding: 20 }}>Error loading backtest: {error}</div>
   )
 
   if (!data || !data.results || data.results.length === 0) return (
@@ -67,7 +67,7 @@ export default function BacktestView() {
           { icon: '📊', label: 'Median Error', value: `${(summary.median_error * 100).toFixed(1)}%`, color: summary.median_error > 0 ? '#fbbf24' : 'var(--green)' },
           { icon: '✅', label: 'Within ±15%', value: `${summary.within_15pct}/${summary.total_games} (${Math.round(summary.within_15pct_rate * 100)}%)`, color: 'var(--green)' },
           { icon: '📉', label: 'Mean Abs Error', value: `${(summary.mean_abs_error * 100).toFixed(1)}%`, color: 'var(--purple)' },
-          { icon: '🗑️', label: 'Total Waste', value: summary.total_waste_units?.toLocaleString() || '—', color: '#f87171' },
+          { icon: '🗑️', label: 'Total Waste', value: summary.total_waste_units?.toLocaleString() || '—', color: '#ef4444' },
           { icon: '📦', label: 'Total Stockout', value: summary.total_stockout_units?.toLocaleString() || '—', color: '#fbbf24' },
         ].map(s => (
           <div key={s.label} style={{
@@ -90,21 +90,21 @@ export default function BacktestView() {
           <div style={{
             fontFamily: 'var(--font-disp)', fontSize: 11, fontWeight: 700,
             letterSpacing: '2.5px', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)', marginBottom: 14,
+            color: 'rgba(255,255,255,0.55)', marginBottom: 14,
           }}>
             Error Distribution
           </div>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={errorDistData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
-              <XAxis dataKey="label" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 9 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="label" tick={{ fill: 'rgba(255,255,255,0.55)', fontSize: 9 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 10 }} axisLine={false} tickLine={false} />
               <Tooltip
-                contentStyle={{ background: '#0d1e33', border: '1px solid rgba(56,189,248,0.2)', borderRadius: 8, fontSize: 12, color: '#e2e8f0' }}
+                contentStyle={{ background: '#0d1525', border: '1px solid rgba(26,107,196,0.2)', borderRadius: 8, fontSize: 12, color: '#e2e8f0' }}
               />
               <Bar dataKey="count" name="Games" radius={[4, 4, 0, 0]}>
                 {errorDistData.map((entry, i) => (
-                  <rect key={i} fill={Math.abs(entry.pct) <= 15 ? '#4ade80' : Math.abs(entry.pct) <= 25 ? '#fbbf24' : '#f87171'} />
+                  <rect key={i} fill={Math.abs(entry.pct) <= 15 ? '#4ade80' : Math.abs(entry.pct) <= 25 ? '#fbbf24' : '#ef4444'} />
                 ))}
               </Bar>
             </BarChart>
@@ -116,7 +116,7 @@ export default function BacktestView() {
           <div style={{
             fontFamily: 'var(--font-disp)', fontSize: 11, fontWeight: 700,
             letterSpacing: '2.5px', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)', marginBottom: 14,
+            color: 'rgba(255,255,255,0.55)', marginBottom: 14,
           }}>
             By Archetype
           </div>
@@ -124,11 +124,11 @@ export default function BacktestView() {
             <div key={arch} style={{
               background: 'rgba(255,255,255,0.03)', borderRadius: 8,
               padding: '12px 14px', marginBottom: 8,
-              borderLeft: `3px solid ${ARCH_COLORS[arch] || '#38bdf8'}`,
+              borderLeft: `3px solid ${ARCH_COLORS[arch] || '#1a6bc4'}`,
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <span style={{ fontFamily: 'var(--font-disp)', fontSize: 15, fontWeight: 700, color: ARCH_COLORS[arch] || '#38bdf8' }}>
+                  <span style={{ fontFamily: 'var(--font-disp)', fontSize: 15, fontWeight: 700, color: ARCH_COLORS[arch] || '#1a6bc4' }}>
                     {arch.replace('_', ' ')}
                   </span>
                   <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 8 }}>
@@ -155,7 +155,7 @@ export default function BacktestView() {
         <div style={{
           fontFamily: 'var(--font-disp)', fontSize: 11, fontWeight: 700,
           letterSpacing: '2.5px', textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.35)', padding: '16px 16px 0',
+          color: 'rgba(255,255,255,0.55)', padding: '16px 16px 0',
         }}>
           Per-Game Results
         </div>
@@ -176,7 +176,7 @@ export default function BacktestView() {
             <tbody>
               {results.map((r, i) => {
                 const absErr = Math.abs(r.volume_error)
-                const errColor = absErr <= 0.15 ? '#4ade80' : absErr <= 0.25 ? '#fbbf24' : '#f87171'
+                const errColor = absErr <= 0.15 ? '#4ade80' : absErr <= 0.25 ? '#fbbf24' : '#ef4444'
                 return (
                   <tr key={i} style={{
                     borderBottom: '1px solid rgba(255,255,255,0.03)',
@@ -187,8 +187,8 @@ export default function BacktestView() {
                     <td style={{ padding: '8px 12px' }}>
                       <span style={{
                         fontSize: 10, padding: '2px 8px', borderRadius: 4,
-                        background: `${ARCH_COLORS[r.archetype] || '#38bdf8'}18`,
-                        color: ARCH_COLORS[r.archetype] || '#38bdf8',
+                        background: `${ARCH_COLORS[r.archetype] || '#1a6bc4'}18`,
+                        color: ARCH_COLORS[r.archetype] || '#1a6bc4',
                       }}>
                         {r.archetype}
                       </span>
